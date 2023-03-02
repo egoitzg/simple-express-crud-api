@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 
 app.use("/books", require("./routes/books"));
 
+app.use("/authors", require("./routes/authors"));
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT);
 
