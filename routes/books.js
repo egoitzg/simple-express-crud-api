@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const books = require("../util/data");
+const bookService = require("../services/bookService");
 
 router.get("/", function (req, res) {
-	res.status(200).json(books);
+	// res.status(200).json(books);
+	res.status(200).json(bookService.getMultiple(req.query.page));
 });
 
 router.get("/:id", function (req, res) {
