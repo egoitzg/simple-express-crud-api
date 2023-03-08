@@ -7,6 +7,22 @@ router.get("/", function (req, res) {
 	res.status(200).json(books);
 });
 
+router.get("/filter", function(req,res){
+	let qFinished = req.query.finish;
+
+	if( qFinished === undefined ){
+		res.sendStatus(400);
+	} else {
+		if( qFinished == "true" || qFinished == "false"){
+			let arrayBooks = books.filter( book => book.finished == (qFinished == "true"));
+		
+			res.status(200).json(arrayBooks);
+		} else {
+			res.status(400).json({"msg": "El parametro solo puede ser true o false"});
+		}
+	}
+});
+
 router.get("/:id", function (req, res) {
 	let book = books.find(function (item) {
 		return item.id == req.params.id;
@@ -14,6 +30,7 @@ router.get("/:id", function (req, res) {
 
 	book ? res.status(200).json(book) : res.sendStatus(404);
 });
+
 
 router.post("/", function (req, res) {
 	const { title, author, finished } = req.body;
