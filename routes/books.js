@@ -4,9 +4,14 @@ const router = express.Router();
 const books = require("../util/data");
 const bookService = require("../services/bookService");
 
-router.get("/", function (req, res) {
+router.get("/", async function (req, res, next) {
 	// res.status(200).json(books);
-	res.status(200).json(bookService.getMultiple(req.query.page));
+	try {
+		res.status(200).json(await bookService.getMultiple(req.query.page));
+	} catch (err){
+		console.error("Error while getting list of books ", err.message);
+		next(err);
+	}
 });
 
 router.get("/:id", function (req, res) {
