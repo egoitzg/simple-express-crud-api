@@ -75,18 +75,20 @@ router.put("/:id", async function (req, res) {
 	}
 });
 
-router.delete("/:id", function (req, res) {
-	let book = books.find(function (item) {
-		return item.id == req.params.id;
-	});
+router.delete("/:id", async function (req, res) {
 
-	if (book) {
-		books.splice(books.indexOf(book), 1);
+	const deleteId = req.params.id;
+
+	const getBook = await bookService.getOneBook(deleteId);
+	if (getBook.data.length > 0) {
+		const data = await bookService.deleteBook(deleteId);
+
+		res.status(210).json({"code": 210, "msg":"delete ok", data});
 	} else {
-		return res.sendStatus(404);
+		res.sendStatus(404);
 	}
 
-	res.sendStatus(204);
+	
 });
 
 module.exports = router;

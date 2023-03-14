@@ -55,12 +55,22 @@ async function modifyBook(book){
   const rows = await db.query(sql);
   const data = helper.emptyOrRows(rows);
 
-  return { data}
+  return data
+}
+
+async function deleteBook(id){
+  let sql = "DELETE FROM books WHERE id ='" + id + "';"
+
+  const rows = await db.query(sql);
+  const data = helper.emptyOrRows(rows);
+
+  return { data }
 }
 
 module.exports = {
   getMultiple,
   getOneBook,
   createBook,
-  modifyBook
+  modifyBook,
+  deleteBook
 }
